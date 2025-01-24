@@ -1,5 +1,6 @@
 import { Nunito, Lora } from "next/font/google";
 import Navbar from "./components/Navbar";
+import Hero from "./components/Hero";
 
 
 const nunito = Nunito({
@@ -10,8 +11,10 @@ const nunito = Nunito({
 
 export default function Home() {
   return (
-    <div>
+    <div className="min-h-screen">
       <Navbar/>
+      <Hero/>
+      
     </div>
   );
 }

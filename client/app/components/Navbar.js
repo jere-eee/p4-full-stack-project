@@ -14,10 +14,10 @@ const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <nav className={`${nunito.className} antialiased bg-gradient-to-r from-[#00472D] to-[#00663f] fixed w-full z-10 shadow-md`}>
-      <div className="container mx-auto flex items-center justify-between py-6 px-10">
+    <nav className={`${nunito.className} antialiased bg-[#2E2E2E] fixed w-full z-10 shadow-md`}>
+      <div className="container mx-auto flex items-center justify-between py-6 px-4 md:px-40">
         {/* Logo */}
-        <Link href="/" className="text-3xl text-[#FFFFFF] font-extrabold">
+        <Link href="/" className="text-3xl text-[#00472D] font-extrabold">
           GamerzHub
         </Link>
 
@@ -60,7 +60,7 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden bg-gradient-to-r from-[#2F463B] via-[#3D6450] to-[#2F463B] space-y-4 py-4 px-6">
+        <div className="md:hidden bg-gradient-to-r from-[#00472D] to-[#00663f] space-y-4 py-4 px-4">
           <Link href="/" className="block text-[#FFFFFF] hover:text-[#F1F1F1] transition duration-300">
             Home
           </Link>

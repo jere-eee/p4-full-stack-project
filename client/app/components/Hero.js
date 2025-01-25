@@ -14,7 +14,7 @@ const nunito = Nunito({
 
 const Hero = () => {
     return (
-      <section className="bg-gradient-to-b to-[#00472D] from-[#00663f] min-h-screen text-white py-16 px-10 sm:px-20 md:px-40 pt-80"> {/* Add pt-32 to push content below navbar */}
+      <section className="bg-gradient-to-b to-[#141B21] from-[#313e48] min-h-screen text-white py-12 px-10 sm:px-20 md:px-40 pt-80"> {/* Add pt-32 to push content below navbar */}
         <div className={`${lato.className} antialiased container m-auto text-center`}>
           <h1 className={`${nunito.className} antialiased text-6xl sm:text-7xl font-extrabold mb-8`}>
             Welcome to GamerzHub

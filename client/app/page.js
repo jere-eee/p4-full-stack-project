@@ -2,6 +2,7 @@ import { Nunito, Lora } from "next/font/google";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import About from "./components/About";
+import Footer from "./components/Footer";
 
 
 const nunito = Nunito({
@@ -16,6 +17,7 @@ export default function Home() {
       <Navbar/>
       <Hero/>
       <About/>
+      <Footer/>
     </div>
   );
 }

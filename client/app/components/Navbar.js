@@ -14,10 +14,10 @@ const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <nav className={`${nunito.className} antialiased bg-[#2E2E2E] fixed w-full z-10 shadow-md`}>
+    <nav className={`${nunito.className} antialiased bg-gradient-to-r from-[#141B21] to-[#313e48] fixed w-full z-10 shadow-md`}>
       <div className="container mx-auto flex items-center justify-between py-6 px-4 md:px-40">
         {/* Logo */}
-        <Link href="/" className="text-3xl text-[#00472D] font-extrabold">
+        <Link href="/" className="text-3xl text-[#FFFFFF] font-extrabold">
           GamerzHub
         </Link>
 
@@ -32,14 +32,17 @@ const Navbar = () => {
           <Link href="/games" className="text-[#FFFFFF] hover:text-[#343434] transition duration-300">
             Games
           </Link>
+          <Link href="/contact" className="text-[#FFFFFF] hover:text-[#343434] transition duration-300">
+            Contact us
+          </Link>
         </div>
 
         {/* Desktop Buttons */}
         <div className="hidden md:flex items-center space-x-14">
-          <button className="text-[#FFFFFF] hover:text-[#343434] border border-white rounded-md py-2 px-6 hover:bg-[#00472D] transition duration-300">
+          <button className="text-[#FFFFFF] hover:text-[#343434] border border-white rounded-md py-2 px-6 hover:bg-[#0F161C] transition duration-300">
             Login
           </button>
-          <button className="text-[#FFFFFF] hover:text-[#F1F1F1] border border-white rounded-md py-2 px-6 hover:bg-[#00472D] transition duration-300">
+          <button className="text-[#FFFFFF] hover:text-[#F1F1F1] border border-white rounded-md py-2 px-6 hover:bg-[#0F161C] transition duration-300">
             Sign-up
           </button>
         </div>
@@ -60,7 +63,7 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden bg-gradient-to-r from-[#00472D] to-[#00663f] space-y-4 py-4 px-4">
+        <div className="md:hidden bg-[#0F161C] space-y-4 py-4 px-4">
           <Link href="/" className="block text-[#FFFFFF] hover:text-[#F1F1F1] transition duration-300">
             Home
           </Link>
@@ -70,11 +73,14 @@ const Navbar = () => {
           <Link href="/games" className="block text-[#FFFFFF] hover:text-[#F1F1F1] transition duration-300">
             Games
           </Link>
+          <Link href="/contact" className="block text-[#FFFFFF] hover:text-[#F1F1F1] transition duration-300">
+            Contact us
+          </Link>
           <div className="space-y-2">
-            <button className="block text-[#FFFFFF] hover:text-[#F1F1F1] bg-gradient-to-b from-[#2F463B] to-[#00472D] w-full text-left rounded-md py-2 px-6 transition duration-300">
+            <button className="block text-[#FFFFFF] hover:text-[#F1F1F1] bg-[#0F161C] w-full text-left rounded-md py-2 px-6 transition duration-300">
               Login
             </button>
-            <button className="block text-[#FFFFFF] hover:text-[#F1F1F1] bg-gradient-to-b from-[#2F463B] to-[#00472D] w-full text-left rounded-md py-2 px-6 transition duration-300">
+            <button className="block text-[#FFFFFF] hover:text-[#F1F1F1] bg-[#0F161C] w-full text-left rounded-md py-2 px-6 transition duration-300">
               Sign-up
             </button>
           </div>

@@ -22,7 +22,7 @@ const Hero = () => {
           <p className="text-lg sm:text-xl mb-8">
             Your community for gaming tournaments, news, and more.
           </p>
-          <button className=" text-white py-3 px-8 rounded-lg text-xl hover:bg-[#141B21] transition duration-300">
+          <button className=" text-white py-3 px-8 border border-white rounded-lg text-xl hover:bg-[#141B21] transition duration-300">
             Get Started
           </button>
         </div>

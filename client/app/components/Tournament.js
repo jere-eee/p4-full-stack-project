@@ -33,7 +33,7 @@ const Tournament = () => {
                             We are an active community of gamers and we have receipts!
                             Check out past and upcoming tournaments or join one (if you're ready!)
                         </p>
-                        <Link href='/tournaments' className=" text-white py-3 px-8 block w-max rounded-lg text-xl hover:bg-[#313e48] transition duration-300">
+                        <Link href='/tournaments' className=" text-white border border-white py-3 px-8 block w-max rounded-lg text-xl hover:bg-[#313e48] transition duration-300">
                             Browse Tournaments
                         </Link>
                     </div>

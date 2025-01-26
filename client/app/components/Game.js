@@ -22,7 +22,7 @@ const Game = () => {
                         <p className="text-lg">
                             Look at some of the popular games we play, read and leave reviews!
                         </p>
-                        <Link href='/games' className=" text-white py-3 px-8 block w-max rounded-lg text-xl hover:bg-[#313e48] transition duration-300">
+                        <Link href='/games' className=" text-white border border-white py-3 px-8 block w-max rounded-lg text-xl hover:bg-[#313e48] transition duration-300">
                             Check out games
                         </Link>
                     </div>

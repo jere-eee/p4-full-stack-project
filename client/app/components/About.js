@@ -6,6 +6,7 @@ import Image from 'next/image';
 // import communityImage from '/public/community.jpg'; // Replace with your actual image path
 import playerplaying from '../../public/images/playerplaying.jpg'
 import Tournament from './Tournament';
+import Game from './Game';
 const lato = Lato({
   weight: ["100", "300", "400", "700", "900"],
   subsets: ["latin"],
@@ -21,7 +22,7 @@ const nunito = Nunito({
 const About = () => {
   return (
     <section className={`bg-[#141B21] text-[#ffffff] ${lato.className} antialiased py-16 px-4 sm:px-10 md:px-40`}>
-      <div className='min-h-screen'>
+      <div>
         <div className="container mx-auto flex flex-col md:flex-row items-center gap-10 ">
           {/* Content Section */}
           <div className="md:w-1/2 space-y-6">
@@ -46,6 +47,7 @@ const About = () => {
         </div>
 
         <Tournament/>
+        <Game/>
 
         {/* Statistics */}
         <div className="my-16 grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-gray-800 gap-32">

@@ -10,11 +10,13 @@ class Signup(Resource):
     def post(self):
         data = request.get_json()
         
+        print("Received data:", data)
+        
         user = User(
             name=data.get('name'), 
             email=data.get('email'),
             profile_picture=data.get('profile_picture')
-        ),
+        )
         
         user.password_hash = data.get('password')
         
@@ -25,9 +27,10 @@ class Signup(Resource):
             session['user_id'] = user.id
             
             return make_response(user.to_dict(), 201)
-        except IntegrityError:
+        except Exception:
             return make_response({"Error": "Error signing up. Check credentials."}, 422)
 
 api.add_resource(Signup, '/signup', endpoint='signup')
+
 if __name__ == '__main__':
     app.run(port=5000, debug=True)

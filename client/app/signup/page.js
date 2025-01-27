@@ -1,9 +1,12 @@
 'use client';
-import React from "react";
 import * as Yup from "yup";
 import { useFormik } from "formik";
+import { useRouter } from "next/navigation";
 
 export default function Signup() {
+
+  const router = useRouter();
+
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -23,25 +26,31 @@ export default function Signup() {
         .required("Password is required"),
     }),
     onSubmit: (values) => {
-      const formData = new FormData();
-      formData.append("name", values.name);
-      formData.append("email", values.email);
-      formData.append("password", values.password);
-      if (values.profilePicture) {
-        formData.append("profile_picture", values.profilePicture);
-      }
-      // Post the formData to your backend API
-      fetch("/signup", {
+      // Create an object to send in the request
+      const payload = {
+        name: values.name,
+        email: values.email,
+        password: values.password,
+        profile_picture: values.profilePicture, // assuming you are sending the image URL or base64 string
+      };
+
+      console.log(payload)
+      // Send the data as JSON
+      fetch("http://localhost:5000/signup", {
         method: "POST",
-        body: formData,
+        headers: {
+          "Content-Type": "application/json", // Indicate the payload is JSON
+        },
+        body: JSON.stringify(payload), // Convert the payload object to JSON
       })
         .then((res) => res.json())
-        .then((data) => console.log("User created:", data))
+        .then((data) => {
+          console.log("User created:", data);
+          router.push('/')
+        })
         .catch((err) => console.error(err));
     },
   });
-
-  
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">

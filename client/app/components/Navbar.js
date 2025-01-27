@@ -39,12 +39,12 @@ const Navbar = () => {
 
         {/* Desktop Buttons */}
         <div className="hidden md:flex items-center space-x-14">
-          <button className="text-[#FFFFFF] hover:text-[#343434] border border-white rounded-md py-2 px-6 hover:bg-[#0F161C] transition duration-300">
+          <Link href='/login' className="text-[#FFFFFF] hover:text-[#343434] border border-white rounded-md py-2 px-6 hover:bg-[#0F161C] transition duration-300">
             Login
-          </button>
-          <button className="text-[#FFFFFF] hover:text-[#F1F1F1] border border-white rounded-md py-2 px-6 hover:bg-[#0F161C] transition duration-300">
+          </Link>
+          <Link href='/sign-up' className="text-[#FFFFFF] hover:text-[#F1F1F1] border border-white rounded-md py-2 px-6 hover:bg-[#0F161C] transition duration-300">
             Sign-up
-          </button>
+          </Link>
         </div>
 
         {/* Mobile Hamburger */}
@@ -77,12 +77,12 @@ const Navbar = () => {
             Contact us
           </Link>
           <div className="space-y-2">
-            <button className="block text-[#FFFFFF] hover:text-[#F1F1F1] bg-[#0F161C] w-full text-left rounded-md py-2 px-6 transition duration-300">
+            <Link href='/login' className="block text-[#FFFFFF] hover:text-[#F1F1F1] bg-[#0F161C] w-full text-left rounded-md py-2 px-6 transition duration-300">
               Login
-            </button>
-            <button className="block text-[#FFFFFF] hover:text-[#F1F1F1] bg-[#0F161C] w-full text-left rounded-md py-2 px-6 transition duration-300">
+            </Link>
+            <Link href='/sign-up' className="block text-[#FFFFFF] hover:text-[#F1F1F1] bg-[#0F161C] w-full text-left rounded-md py-2 px-6 transition duration-300">
               Sign-up
-            </button>
+            </Link>
           </div>
         </div>
       )}

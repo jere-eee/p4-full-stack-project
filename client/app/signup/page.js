@@ -41,6 +41,7 @@ export default function Signup() {
         headers: {
           "Content-Type": "application/json", // Indicate the payload is JSON
         },
+        credentials: "include",
         body: JSON.stringify(payload), // Convert the payload object to JSON
       })
         .then((res) => res.json())

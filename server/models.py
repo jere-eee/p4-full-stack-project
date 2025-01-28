@@ -25,3 +25,14 @@ class User(db.Model, SerializerMixin):
     def authenticate(self, password):
         return bcrypt.check_password_hash(self._password_hash, password.encode('utf-8'))
     
+    
+class Game(db.Model, SerializerMixin):
+    __tablename__ = 'games'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String)
+    background_img = db.Column(db.String)
+    platforms = db.Column(db.String)
+    genre = db.Column(db.String)
+    release_date = db.Column(db.String)
+    rating = db.Column(db.Integer)

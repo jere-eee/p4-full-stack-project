@@ -2,9 +2,11 @@ from sqlalchemy.exc import IntegrityError
 from config import app, db, api
 from flask import make_response, request, session
 from flask_restful import Resource
+import requests
 
-from models import User
+from models import User, Game
 
+RAWG_API_KEY = "fabf6239dad644d3b7e03cf15c39ac78"
 
 class Signup(Resource):
     def post(self):
@@ -52,10 +54,36 @@ class Login(Resource):
             session['user_id'] = user.id
             return user.to_dict(), 200    
         return {"Error": "401 Unauthorized"}, 401
+    
+class Games(Resource):
+    def get(self):
+        response = requests.get(f"https://api.rawg.io/api/games?key={RAWG_API_KEY}&page_size=50")
+        print(response)
+        if response.ok:
+            games_data = response.json()["results"]
+            for game in games_data:
+                existing_game = Game.query.filter_by(id=game["id"]).first()
+                if not existing_game:
+                    new_game = Game(
+                        id=game["id"],
+                        title=game["name"],
+                        background_img=game['background_image'],
+                        platforms=", ".join([p["platform"]["name"] for p in game["platforms"]]),
+                        genre=", ".join([g["name"] for g in game["genres"]]),
+                        release_date=game.get("released", "N/A"),
+                        rating=game['rating']
+                    )  
+                    db.session.add(new_game)
+            db.session.commit()
+            all_games = Game.query.all()
+            return make_response([g.to_dict() for g in all_games], 200)
+        return {"error": "Failed to fetch games from RAWG"}, 500
+
 
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
 api.add_resource(Logout, '/logout', endpoint='logout')
 api.add_resource(Login, '/login', endpoint='login')
+api.add_resource(Games, '/games', endpoint='games')
 if __name__ == '__main__':
     app.run(port=5000, debug=True)

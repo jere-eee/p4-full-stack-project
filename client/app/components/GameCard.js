@@ -12,7 +12,7 @@ const nunito = Nunito({
 const GameCard = ({ game }) => {
   return (
     <Link href={`/games/${game.id}`} className="group">
-      <div className="bg-[#141B21] rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 ease-in-out">
+      <div className="bg-[#141B21] rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 ease-in-out border-black border">
         {/* Game Image */}
         <div className="relative h-64 w-full">
           <Image
@@ -33,7 +33,7 @@ const GameCard = ({ game }) => {
             {game.title}
           </h1>
           <p className="text-sm text-gray-400 mb-2">
-            Platforms: {Array.isArray(game.platforms) ? game.platforms.map(p => p.platform?.name || p).join(", ") : "N/A"}
+            Genre: {game.genre}
           </p>
           <div className="text-sm text-gray-300">Rating: {game.rating}</div>
         </div>

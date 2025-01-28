@@ -57,28 +57,30 @@ class Login(Resource):
     
 class Games(Resource):
     def get(self):
-        response = requests.get(f"https://api.rawg.io/api/games?key={RAWG_API_KEY}&page_size=50")
-        print(response)
-        if response.ok:
-            games_data = response.json()["results"]
-            for game in games_data:
-                existing_game = Game.query.filter_by(id=game["id"]).first()
-                if not existing_game:
-                    new_game = Game(
-                        id=game["id"],
-                        title=game["name"],
-                        background_img=game['background_image'],
-                        platforms=", ".join([p["platform"]["name"] for p in game["platforms"]]),
-                        genre=", ".join([g["name"] for g in game["genres"]]),
-                        release_date=game.get("released", "N/A"),
-                        rating=game['rating']
-                    )  
-                    db.session.add(new_game)
-            db.session.commit()
-            all_games = Game.query.all()
-            return make_response([g.to_dict() for g in all_games], 200)
-        return {"error": "Failed to fetch games from RAWG"}, 500
-
+        games_present = Game.query.all()
+        if not games_present:
+            response = requests.get(f"https://api.rawg.io/api/games?key={RAWG_API_KEY}&page_size=50")
+            print(response)
+            if response.ok:
+                games_data = response.json()["results"]
+                for game in games_data:
+                    existing_game = Game.query.filter_by(id=game["id"]).first()
+                    if not existing_game:
+                        new_game = Game(
+                            id=game["id"],
+                            title=game["name"],
+                            background_img=game['background_image'],
+                            platforms=", ".join([p["platform"]["name"] for p in game["platforms"]]),
+                            genre=", ".join([g["name"] for g in game["genres"]]),
+                            release_date=game.get("released", "N/A"),
+                            rating=game['rating']
+                        )  
+                        db.session.add(new_game)
+                db.session.commit()
+                all_games = Game.query.all()
+                return make_response([g.to_dict() for g in all_games], 200)
+            return {"error": "Failed to fetch games from RAWG"}, 500
+        return make_response([g.to_dict() for g in games_present], 200)
 
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')

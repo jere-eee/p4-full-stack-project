@@ -82,10 +82,19 @@ class Games(Resource):
             return {"error": "Failed to fetch games from RAWG"}, 500
         return make_response([g.to_dict() for g in games_present], 200)
 
+class GameById(Resource):
+    def get(self, id):
+        game = Game.query.filter_by(id=id).first()
+        if game:
+            print(game.to_dict())
+            return make_response(game.to_dict(), 200)
+        return {"Error": "Game not found"}, 404
+    
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
 api.add_resource(Logout, '/logout', endpoint='logout')
 api.add_resource(Login, '/login', endpoint='login')
 api.add_resource(Games, '/games', endpoint='games')
+api.add_resource(GameById, '/game/<int:id>', endpoint='game/[id]')
 if __name__ == '__main__':
     app.run(port=5000, debug=True)

@@ -61,6 +61,9 @@ const Page = () => {
     if (sortOption === "highest-rated") {
       displayedGames = displayedGames.sort((a, b) => b.rating - a.rating);
     }
+    else if (sortOption === "alphabetical") {
+      displayedGames = displayedGames.sort((a, b) => a.title.toLowerCase().localeCompare(b.title.toLowerCase()))
+    }
 
     setFilteredGames(displayedGames);
   }, [searchQuery, sortOption, games]);
@@ -100,6 +103,7 @@ const Page = () => {
             >
               <option value="default">Default</option>
               <option value="highest-rated">Highest Rated</option>
+              <option value="alphabetical">Alphabetical</option>
             </select>
           </div>
         </div>

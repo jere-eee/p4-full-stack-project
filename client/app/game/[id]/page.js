@@ -7,6 +7,7 @@ const GameDetailPage = ({ params }) => {
   const [user, setUser] = useState(null);
   const [game, setGame] = useState(null);
   const [gameId, setGameId] = useState(null);
+  const [reviews, setReviews] = useState()
 
   // Unwrap params using useEffect
   useEffect(() => {
@@ -19,17 +20,18 @@ const GameDetailPage = ({ params }) => {
 
   useEffect(() => {
     if (!gameId) return;
-    // Fetch game details by ID
-    fetch(`http://localhost:5000/game/${gameId}`)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Failed to fetch game details");
-        }
-        return response.json();
+
+    Promise.all([
+      fetch(`http://localhost:5000/game/${gameId}`).then(res => res.json()),
+      fetch(`http://localhost:5000/game/${gameId}/reviews`).then(res => res.json())
+    ])
+      .then(([gameData, reviewsData]) => {
+        setGame(gameData);
+        setReviews(reviewsData);
       })
-      .then((gameData) => setGame(gameData))
-      .catch((error) => console.error("Error fetching game details:", error));
+      .catch(error => console.error("Error fetching data:", error));
   }, [gameId]);
+
 
   useEffect(() => {
     // Auto-login to fetch the user session
@@ -52,9 +54,9 @@ const GameDetailPage = ({ params }) => {
       <Navbar user={user} setUser={setUser} />
       <div className="md:ml-40 pt-20">
         {game ? (
-          <GameCard game={game} isDetailedView={true} />
+          <GameCard game={game} isDetailedView={true} reviews={reviews}/>
         ) : (
-          <p className="text-center text-gray-500">Loading game details...</p>
+          <p className="text-center pt-20 text-gray-500 min-h-screen">Loading game details...</p>
         )}
       </div>
     </div>

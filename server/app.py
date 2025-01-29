@@ -4,7 +4,7 @@ from flask import make_response, request, session
 from flask_restful import Resource
 import requests
 
-from models import User, Game
+from models import User, Game, Review
 
 RAWG_API_KEY = "fabf6239dad644d3b7e03cf15c39ac78"
 
@@ -86,15 +86,21 @@ class GameById(Resource):
     def get(self, id):
         game = Game.query.filter_by(id=id).first()
         if game:
-            print(game.to_dict())
             return make_response(game.to_dict(), 200)
         return {"Error": "Game not found"}, 404
     
+class GameReviews(Resource):
+    def get(self, id):
+        reviews = Review.query.filter(Review.game_id==id).all()
+        if reviews:
+            return make_response([r.to_dict() for r in reviews], 200)
+        return {"Error": "Game reviews not found"}, 404
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
 api.add_resource(Logout, '/logout', endpoint='logout')
 api.add_resource(Login, '/login', endpoint='login')
 api.add_resource(Games, '/games', endpoint='games')
 api.add_resource(GameById, '/game/<int:id>', endpoint='game/[id]')
+api.add_resource(GameReviews, '/game/<int:id>/reviews', endpoint='game/[id]/reviews')
 if __name__ == '__main__':
     app.run(port=5000, debug=True)

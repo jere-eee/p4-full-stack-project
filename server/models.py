@@ -12,6 +12,7 @@ class User(db.Model, SerializerMixin):
     _password_hash = db.Column(db.String)
     profile_picture = db.Column(db.String, default="")
     
+    serialize_rules = ('-reviews.user', '-_password_hash',)
     
     @hybrid_property
     def password_hash(self):
@@ -38,6 +39,8 @@ class Game(db.Model, SerializerMixin):
     release_date = db.Column(db.String)
     rating = db.Column(db.Integer)
     
+    serialize_rules = ('-reviews.game',)
+    
     reviews = db.relationship('Review', back_populates='game', cascade='all, delete-orphan')
     
 class Review(db.Model, SerializerMixin):
@@ -48,6 +51,8 @@ class Review(db.Model, SerializerMixin):
     rating = db.Column(db.Integer)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     game_id = db.Column(db.Integer, db.ForeignKey('games.id'))
+    
+    serialize_rules = ('-user.reviews', '-game.reviews')
     
     user = db.relationship('User', back_populates='reviews')
     game = db.relationship('Game', back_populates='reviews')

@@ -124,7 +124,7 @@ const Navbar = ({ user, setUser }) => {
                   className="w-12 h-12 rounded-full object-cover"
                 />
               ) : (
-                <div className="w-12 h-12 bg-gray-300 rounded-full"></div> // Placeholder if no picture
+                <div className="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center text-xl">{user?.name?.charAt(0).toUpperCase() || ""}</div> // Placeholder if no picture
               )}
               <div>
                 <p className="font-semibold text-white">{user.name}</p>

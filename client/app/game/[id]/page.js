@@ -54,7 +54,7 @@ const GameDetailPage = ({ params }) => {
       <Navbar user={user} setUser={setUser} />
       <div className="md:ml-40 pt-20">
         {game ? (
-          <GameCard game={game} isDetailedView={true} reviews={reviews}/>
+          <GameCard game={game} isDetailedView={true} reviews={reviews} user={user}/>
         ) : (
           <p className="text-center pt-20 text-gray-500 min-h-screen">Loading game details...</p>
         )}

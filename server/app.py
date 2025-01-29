@@ -95,6 +95,26 @@ class GameReviews(Resource):
         if reviews:
             return make_response([r.to_dict() for r in reviews], 200)
         return {"Error": "Game reviews not found"}, 404
+    
+    def post(self, id):
+        data = request.get_json()
+        
+        review = Review(
+            content = data.get('content'),
+            rating = data.get('rating'),
+            user_id = data.get('user_id'),
+            game_id = id
+        )
+        
+        try:
+            db.session.add(review)
+            db.session.commit()
+            
+            return make_response(review.to_dict(), 201)
+        except Exception:
+            return make_response({"Error": "Error making review."}, 422)
+        
+        
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
 api.add_resource(Logout, '/logout', endpoint='logout')

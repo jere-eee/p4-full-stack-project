@@ -128,6 +128,12 @@ class ReviewById(Resource):
             200
         )
         
+    def delete(self, id):
+        review = Review.query.filter_by(id=id).first()
+        db.session.delete(review)
+        db.session.commit()
+        return make_response({"Message": "Successfully deleted review."}, 204)
+    
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
 api.add_resource(Logout, '/logout', endpoint='logout')

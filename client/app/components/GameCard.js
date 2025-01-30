@@ -76,6 +76,21 @@ const GameCard = ({ game, isDetailedView = false, reviews = [], onReviewAdded, u
     }
   };
 
+  const handleDeleteReview = async (reviewId) => {
+    try {
+      const response = await fetch(`http://localhost:5000/reviews/${reviewId}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+      });
+      if (response.ok) {
+        setAllReviews(allReviews.filter(r => (r.id !== reviewId)));
+        alert("Review deleted!")
+      }
+    } catch (err) {
+      console.error("Failed to delete review", err)
+    }
+  }
+
   const cardContent = (
     <div className={`${isDetailedView ? "max-w-4xl w-full" : "max-w-md"} bg-[#141B21] rounded-3xl overflow-hidden shadow-lg transition-all duration-200 p-4 ${lato.className} antialiased`}>
       <div className="relative w-full h-64">
@@ -107,7 +122,7 @@ const GameCard = ({ game, isDetailedView = false, reviews = [], onReviewAdded, u
                 value={formik.values.rating}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                placeholder="Rating (1-5)"
+                placeholder="Rating (0-5)"
                 className="w-full p-2 rounded-md bg-gray-800 text-white border border-gray-700 mt-2"
               />
               {formik.touched.rating && formik.errors.rating && <p className="text-red-400 text-sm">{formik.errors.rating}</p>}
@@ -141,12 +156,17 @@ const GameCard = ({ game, isDetailedView = false, reviews = [], onReviewAdded, u
                           <input
                             type="number"
                             value={editedRating}
-                            onChange={(e) => setEditedRating(e.target.value)}
-                            placeholder="Rating (1-5)"
+                            onChange={(e) => {setEditedRating(e.target.value)}}
+                            placeholder="Rating (0-5)"
+                            min={0}
+                            max={5}
                             className="w-full p-2 rounded-md bg-gray-800 text-white border border-gray-700 mt-2"
                           />
                           <button onClick={() => handleSaveEdit(review.id)} className="mt-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg">
                             Save
+                          </button>
+                          <button onClick={() => handleDeleteReview(review.id)} className="mt-2 ml-4 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg">
+                            Delete
                           </button>
                         </div>) : (<>
                           <p className="text-gray-300 mt-2 text-sm leading-relaxed">{review.content}</p>

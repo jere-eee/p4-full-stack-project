@@ -4,7 +4,7 @@ from flask import make_response, request, session
 from flask_restful import Resource
 import requests
 
-from models import User, Game, Review
+from models import User, Game, Review, Tournament
 
 RAWG_API_KEY = "fabf6239dad644d3b7e03cf15c39ac78"
 
@@ -134,6 +134,15 @@ class ReviewById(Resource):
         db.session.commit()
         return make_response({"Message": "Successfully deleted review."}, 204)
     
+class Tournaments(Resource):
+    def get(self):
+        tournaments = Tournament.query.all()
+        if tournaments:
+            print([t.to_dict() for t in tournaments])
+            return make_response([t.to_dict() for t in tournaments], 200)
+        return make_response({"Error": "No tournaments found."}, 404)
+    
+    
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
 api.add_resource(Logout, '/logout', endpoint='logout')
@@ -142,5 +151,6 @@ api.add_resource(Games, '/games', endpoint='games')
 api.add_resource(GameById, '/game/<int:id>', endpoint='game/[id]')
 api.add_resource(GameReviews, '/game/<int:id>/reviews', endpoint='game/[id]/reviews')
 api.add_resource(ReviewById, '/reviews/<int:id>', endpoint='reviews/[id]')
+api.add_resource(Tournaments, '/tournaments', endpoint='tournaments')
 if __name__ == '__main__':
     app.run(port=5000, debug=True)

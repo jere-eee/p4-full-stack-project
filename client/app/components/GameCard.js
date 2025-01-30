@@ -92,15 +92,15 @@ const GameCard = ({ game, isDetailedView = false, reviews = [], onReviewAdded, u
   }
 
   const cardContent = (
-    <div className={`${isDetailedView ? "max-w-4xl w-full" : "max-w-md"} bg-[#141B21] rounded-3xl overflow-hidden shadow-lg transition-all duration-200 p-4 ${lato.className} antialiased`}>
-      <div className="relative w-full h-64">
+    <div className={`${isDetailedView ? "mr-40" : "max-w-md"} bg-[#141B21] rounded-3xl overflow-hidden shadow-lg transition-all duration-200 p-4 ${lato.className} antialiased`}>
+      <div className="relative w-full h-80">
         <Image src={game.background_img} alt={`${game.title} background`} layout="fill" objectFit="cover" className="rounded-t-xl" />
       </div>
 
       <div className="pt-4">
-        <h1 className={`text-xl font-bold text-white mb-2 ${nunito.className} antialiased`}>{game.title}</h1>
-        <p className="text-sm text-gray-300">Genre: {game.genre}</p>
-        <p className="text-sm text-gray-300">Rating: {game.rating}</p>
+        <h1 className={`text-2xl font-bold text-white mb-2 ${nunito.className} antialiased`}>{game.title}</h1>
+        <p className="text-lg text-gray-300">Genre: {game.genre}</p>
+        <p className="text-lg text-gray-300">Rating: {game.rating}</p>
 
         {isDetailedView && (
           <div className="mt-6">
@@ -169,8 +169,8 @@ const GameCard = ({ game, isDetailedView = false, reviews = [], onReviewAdded, u
                             Delete
                           </button>
                         </div>) : (<>
-                          <p className="text-gray-300 mt-2 text-sm leading-relaxed">{review.content}</p>
-                          <span className="text-yellow-400 text-sm font-semibold bg-gray-800 px-3 py-1  mx-4 rounded-lg">
+                          <p className="text-gray-300 my-2 text-md leading-relaxed">{review.content}</p>
+                          <span className="text-yellow-400 text-md font-semibold bg-gray-800 px-3 py-1  mx-4 rounded-lg">
                             ⭐ {review.rating}/5
                           </span>
 

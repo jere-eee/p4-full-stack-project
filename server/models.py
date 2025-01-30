@@ -13,7 +13,7 @@ class User(db.Model, SerializerMixin):
     _password_hash = db.Column(db.String)
     profile_picture = db.Column(db.String, default="")
     
-    serialize_rules = ('-reviews.user', '-_password_hash',)
+    serialize_rules = ('-reviews.user', '-_password_hash', '-tournament_participants.user',)
     
     @hybrid_property
     def password_hash(self):
@@ -28,7 +28,7 @@ class User(db.Model, SerializerMixin):
         return bcrypt.check_password_hash(self._password_hash, password.encode('utf-8'))
     
     reviews = db.relationship('Review', back_populates='user', cascade='all, delete-orphan')
-    tournament_participations = db.relationship("TournamentParticipant", back_populates="user", cascade="all, delete-orphan")
+    tournament_participants = db.relationship("TournamentParticipant", back_populates="user", cascade="all, delete-orphan")
     tournaments = association_proxy("tournament_participants", "tournament", creator=lambda tournament_obj: TournamentParticipant(tournament=tournament_obj))
     
 class Game(db.Model, SerializerMixin):
@@ -45,6 +45,7 @@ class Game(db.Model, SerializerMixin):
     serialize_rules = ('-reviews.game',)
     
     reviews = db.relationship('Review', back_populates='game', cascade='all, delete-orphan')
+    tournaments = db.relationship('Tournament', back_populates='game', cascade='all, delete-orphan')
     
 class Review(db.Model, SerializerMixin):
     __tablename__ = 'reviews'
@@ -63,6 +64,7 @@ class Review(db.Model, SerializerMixin):
 class Tournament(db.Model, SerializerMixin):
     __tablename__ = 'tournaments'
     
+    serialize_rules = ('-game.tournaments', '-users.tournaments', '-tournament_participants.tournament',)
     id = db.Column(db.Integer, primary_key=True)
     game_id = db.Column(db.Integer, db.ForeignKey('games.id'), nullable=False)
     title = db.Column(db.String)

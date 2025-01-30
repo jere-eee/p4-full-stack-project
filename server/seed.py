@@ -1,12 +1,11 @@
 from app import app, db
-from models import User,Review
+from models import User,Review, Tournament
 
 with app.app_context():
-    review_1 = Review(
-        content="One of the very best games ever made.",
-        rating=5,
-        user_id=4,
-        game_id=28
+    tournament_1 = Tournament(
+        title="RDR2 Bounty Tournament",
+        game_id=28,
+        description="Race against opponents to the bounty. Only melee weapons allowed.",
     )
-    db.session.add(review_1)
+    db.session.add(tournament_1)
     db.session.commit()

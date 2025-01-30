@@ -34,11 +34,11 @@ const page = () => {
       }, []);
 
     return (
-        <div className='bg-[#141B21]'>
+        <div className='bg-[#141B21] grid sm:grid-cols-1 '>
             <Navbar user={user} setUser={setUser}/>
             <div className='mx-40'>
             {tournaments.map((t) => (
-                <TournamentCard key={t.id} tournament={t}/>
+                <TournamentCard key={t.id} tournament={t} user={user}/>
             ))}
 
             </div>

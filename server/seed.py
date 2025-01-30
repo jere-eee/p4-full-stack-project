@@ -1,11 +1,13 @@
 from app import app, db
-from models import User,Review, Tournament
+from models import User,Review, Tournament, TournamentParticipant
 
 with app.app_context():
-    tournament_1 = Tournament(
-        title="RDR2 Bounty Tournament",
-        game_id=28,
-        description="Race against opponents to the bounty. Only melee weapons allowed.",
+    TournamentParticipant.query.delete()
+    
+    tournament_2 = Tournament(
+        title="Little Nightmares marathon",
+        game_id=41,
+        description="First to complete as many checkpoints within the timeframe wins.",
     )
-    db.session.add(tournament_1)
+    db.session.add(tournament_2)
     db.session.commit()

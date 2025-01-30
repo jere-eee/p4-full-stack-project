@@ -1,10 +1,8 @@
 from datetime import datetime, timezone
-from sqlalchemy_serializer import SerializerMixin
-from sqlalchemy.ext.hybrid import hybrid_property
-from sqlalchemy.ext.associationproxy import association_proxy
 from config import db, bcrypt
+from sqlalchemy.ext.hybrid import hybrid_property
 
-class User(db.Model, SerializerMixin):
+class User(db.Model):
     __tablename__ = 'users'
     
     id = db.Column(db.Integer, primary_key=True)
@@ -12,26 +10,30 @@ class User(db.Model, SerializerMixin):
     email = db.Column(db.String, unique=True)
     _password_hash = db.Column(db.String)
     profile_picture = db.Column(db.String, default="")
-    
-    serialize_rules = ('-reviews.user', '-_password_hash', '-tournament_participants.user',)
-    
+
+    reviews = db.relationship('Review', back_populates='user', cascade='all, delete-orphan', lazy='joined')
+    tournament_participants = db.relationship("TournamentParticipant", back_populates="user", cascade="all, delete-orphan", lazy='joined')
+
     @hybrid_property
     def password_hash(self):
         raise AttributeError("Password hashes may not be viewed.")
     
     @password_hash.setter
     def password_hash(self, password):
-        password_hash = bcrypt.generate_password_hash(password)
-        self._password_hash = password_hash.decode('utf-8')
+        self._password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
 
     def authenticate(self, password):
-        return bcrypt.check_password_hash(self._password_hash, password.encode('utf-8'))
-    
-    reviews = db.relationship('Review', back_populates='user', cascade='all, delete-orphan')
-    tournament_participants = db.relationship("TournamentParticipant", back_populates="user", cascade="all, delete-orphan")
-    tournaments = association_proxy("tournament_participants", "tournament", creator=lambda tournament_obj: TournamentParticipant(tournament=tournament_obj))
-    
-class Game(db.Model, SerializerMixin):
+        return bcrypt.check_password_hash(self._password_hash, password)
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "email": self.email,
+            "profile_picture": self.profile_picture
+        }
+
+class Game(db.Model):
     __tablename__ = 'games'
     
     id = db.Column(db.Integer, primary_key=True)
@@ -41,13 +43,22 @@ class Game(db.Model, SerializerMixin):
     genre = db.Column(db.String)
     release_date = db.Column(db.String)
     rating = db.Column(db.Integer)
-    
-    serialize_rules = ('-reviews.game',)
-    
-    reviews = db.relationship('Review', back_populates='game', cascade='all, delete-orphan')
-    tournaments = db.relationship('Tournament', back_populates='game', cascade='all, delete-orphan')
-    
-class Review(db.Model, SerializerMixin):
+
+    reviews = db.relationship('Review', back_populates='game', cascade='all, delete-orphan', lazy='joined')
+    tournaments = db.relationship('Tournament', back_populates='game', cascade='all, delete-orphan', lazy='joined')
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "title": self.title,
+            "background_img": self.background_img,
+            "platforms": self.platforms,
+            "genre": self.genre,
+            "release_date": self.release_date,
+            "rating": self.rating
+        }
+
+class Review(db.Model):
     __tablename__ = 'reviews'
     
     id = db.Column(db.Integer, primary_key=True)
@@ -55,28 +66,45 @@ class Review(db.Model, SerializerMixin):
     rating = db.Column(db.Integer)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     game_id = db.Column(db.Integer, db.ForeignKey('games.id'), nullable=False)
-    
-    serialize_rules = ('-user.reviews', '-game.reviews')
-    
-    user = db.relationship('User', back_populates='reviews')
-    game = db.relationship('Game', back_populates='reviews')
-    
-class Tournament(db.Model, SerializerMixin):
+
+    user = db.relationship('User', back_populates='reviews', lazy='joined')
+    game = db.relationship('Game', back_populates='reviews', lazy='joined')
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "content": self.content,
+            "rating": self.rating,
+            "user": {
+                "id": self.user.id,
+                "name": self.user.name,
+                "profile_picture": self.user.profile_picture
+            } if self.user else None
+        }
+
+class Tournament(db.Model):
     __tablename__ = 'tournaments'
     
-    serialize_rules = ('-game.tournaments', '-users.tournaments', '-tournament_participants.tournament',)
     id = db.Column(db.Integer, primary_key=True)
     game_id = db.Column(db.Integer, db.ForeignKey('games.id'), nullable=False)
     title = db.Column(db.String)
     description = db.Column(db.Text)
     created_at = db.Column(db.DateTime, default=datetime.now(timezone.utc))
-    
-    game = db.relationship('Game', back_populates='tournaments')
-    tournament_participants = db.relationship("TournamentParticipant", back_populates="tournament", cascade="all, delete-orphan")
-    users = association_proxy("tournament_participants", "user", creator=lambda user_obj: TournamentParticipant(user=user_obj))
 
-    
-class TournamentParticipant(db.Model, SerializerMixin):
+    game = db.relationship('Game', back_populates='tournaments', lazy='joined')
+    tournament_participants = db.relationship("TournamentParticipant", back_populates="tournament", cascade="all, delete-orphan", lazy='joined')
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "title": self.title,
+            "description": self.description,
+            "created_at": self.created_at.isoformat(),
+            "game": self.game.to_dict() if self.game else None,
+            "participants": [{"id": participant.user.id, "name": participant.user.name} for participant in self.tournament_participants]
+        }
+
+class TournamentParticipant(db.Model):
     __tablename__ = 'tournament_participants'
     
     id = db.Column(db.Integer, primary_key=True)
@@ -84,6 +112,13 @@ class TournamentParticipant(db.Model, SerializerMixin):
     tournament_id = db.Column(db.Integer, db.ForeignKey('tournaments.id'), nullable=False)
     rank = db.Column(db.Integer)
     points = db.Column(db.Integer)
-    
-    user = db.relationship('User', back_populates='tournament_participants')
-    tournament = db.relationship('Tournament', back_populates='tournament_participants')
+
+    user = db.relationship('User', back_populates='tournament_participants', lazy='joined')
+    tournament = db.relationship('Tournament', back_populates='tournament_participants', lazy='joined')
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "rank": self.rank,
+            "points": self.points
+        }

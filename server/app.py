@@ -4,7 +4,7 @@ from flask import make_response, request, session
 from flask_restful import Resource
 import requests
 
-from models import User, Game, Review, Tournament
+from models import User, Game, Review, Tournament, TournamentParticipant
 
 RAWG_API_KEY = "fabf6239dad644d3b7e03cf15c39ac78"
 
@@ -138,10 +138,32 @@ class Tournaments(Resource):
     def get(self):
         tournaments = Tournament.query.all()
         if tournaments:
-            print([t.to_dict() for t in tournaments])
             return make_response([t.to_dict() for t in tournaments], 200)
         return make_response({"Error": "No tournaments found."}, 404)
     
+class TournamentParticipants(Resource):
+    def post(self):
+        data = request.get_json()
+        tournament_participant = TournamentParticipant(
+            user_id = data.get('user_id'),
+            tournament_id = data.get('tournament_id'),
+            rank = data.get('rank'),
+            points = data.get('points')
+        )
+        try:
+            db.session.add(tournament_participant)
+            db.session.commit()
+            
+            return make_response(tournament_participant.to_dict(), 201)
+        except Exception:
+            return make_response({"Error": "Error adding participant."}, 422)
+        
+class TournamentParticipantById(Resource):
+    def delete(self, id):
+        participant = TournamentParticipant.query.filter_by(user_id=id).first()
+        db.session.delete(participant)
+        db.session.commit()
+        return make_response({"Message": "Successful delete"}, 204) 
     
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
@@ -152,5 +174,8 @@ api.add_resource(GameById, '/game/<int:id>', endpoint='game/[id]')
 api.add_resource(GameReviews, '/game/<int:id>/reviews', endpoint='game/[id]/reviews')
 api.add_resource(ReviewById, '/reviews/<int:id>', endpoint='reviews/[id]')
 api.add_resource(Tournaments, '/tournaments', endpoint='tournaments')
+api.add_resource(TournamentParticipants, '/tournament_participants', endpoint='tournament_participants')
+api.add_resource(TournamentParticipantById, '/tournament_participants/<int:id>', endpoint='tournament_participant/[id]')
+
 if __name__ == '__main__':
     app.run(port=5000, debug=True)

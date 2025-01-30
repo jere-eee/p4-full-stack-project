@@ -114,6 +114,19 @@ class GameReviews(Resource):
         except Exception:
             return make_response({"Error": "Error making review."}, 422)
         
+class ReviewById(Resource):
+    def patch(self, id):
+        review = Review.query.filter_by(id=id).first()
+        for attr in request.json:
+            setattr(review, attr, request.json[attr])
+            
+        db.session.add(review)
+        db.session.commit()
+        
+        return make_response(
+            review.to_dict(),
+            200
+        )
         
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
@@ -122,5 +135,6 @@ api.add_resource(Login, '/login', endpoint='login')
 api.add_resource(Games, '/games', endpoint='games')
 api.add_resource(GameById, '/game/<int:id>', endpoint='game/[id]')
 api.add_resource(GameReviews, '/game/<int:id>/reviews', endpoint='game/[id]/reviews')
+api.add_resource(ReviewById, '/reviews/<int:id>', endpoint='reviews/[id]')
 if __name__ == '__main__':
     app.run(port=5000, debug=True)

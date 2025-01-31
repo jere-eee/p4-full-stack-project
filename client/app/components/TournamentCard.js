@@ -3,15 +3,15 @@ import { Nunito, Lato } from 'next/font/google';
 import Image from "next/image";
 
 const nunito = Nunito({
-  weight: ["200", "300", "400", "500", "700", "900"],
-  subsets: ["latin"],
-  display: "swap",
+    weight: ["200", "300", "400", "500", "700", "900"],
+    subsets: ["latin"],
+    display: "swap",
 });
 
 const lato = Lato({
-  weight: ["100", "300", "400", "700", "900"],
-  subsets: ["latin"],
-  display: "swap",
+    weight: ["100", "300", "400", "700", "900"],
+    subsets: ["latin"],
+    display: "swap",
 });
 
 
@@ -30,7 +30,7 @@ const TournamentCard = ({ tournament, user }) => {
                 method: "DELETE",
                 headers: { "Content-Type": "application/json" },
             });
-    
+
             if (response.ok) {
                 // Persist joined state in localStorage
                 localStorage.removeItem(`joined_${tournamentId}`);
@@ -53,7 +53,7 @@ const TournamentCard = ({ tournament, user }) => {
                     points: 0
                 }),
             });
-    
+
             if (response.ok) {
                 alert("Successfully joined tournament!");
                 // Persist joined state in localStorage
@@ -115,16 +115,25 @@ const TournamentCard = ({ tournament, user }) => {
                 </div>
 
                 {/* Participants */}
-                <div>
-                    <h1 className="text-lg font-semibold text-white">Participants</h1>
-                    <ul>
-                        {tournament.participants.map((participant) => (
-                            <li key={participant.id} className="text-sm text-gray-300">
-                                {participant.name}
-                            </li>
-                        ))}
+                {/* Participants */}
+                <div className="mt-6 p-4 bg-[#1F2933] rounded-lg shadow-md">
+                    <h1 className="text-lg font-semibold text-white mb-2">Participants</h1>
+                    <ul className="space-y-2">
+                        {tournament.participants.length > 0 ? (
+                            tournament.participants.map((participant) => (
+                                <li key={participant.id} className="flex items-center gap-3 text-sm text-gray-300 bg-[#2D3748] p-2 rounded-md">
+                                    <span className="w-8 h-8 flex items-center justify-center bg-blue-500 text-white font-bold rounded-full">
+                                        {participant.name.charAt(0).toUpperCase()}
+                                    </span>
+                                    {participant.name}
+                                </li>
+                            ))
+                        ) : (
+                            <p className="text-gray-400 italic">No participants yet.</p>
+                        )}
                     </ul>
                 </div>
+
             </div>
         </div>
     );

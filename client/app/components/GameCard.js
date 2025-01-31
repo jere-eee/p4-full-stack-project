@@ -4,6 +4,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useRouter } from "next/navigation";
+
 
 const nunito = Nunito({
   weight: ["200", "300", "400", "500", "700", "900"],
@@ -23,6 +25,8 @@ const GameCard = ({ game, isDetailedView = false, reviews = [], onReviewAdded, u
   const [editedContent, setEditedContent] = useState("");
   const [editedRating, setEditedRating] = useState()
 
+  const router = useRouter();
+
   const formik = useFormik({
     initialValues: {
       content: "",
@@ -33,6 +37,10 @@ const GameCard = ({ game, isDetailedView = false, reviews = [], onReviewAdded, u
       rating: Yup.number().min(1, "Rating must be at least 1").max(5, "Rating cannot exceed 5").required("Rating is required"),
     }),
     onSubmit: async (values, { resetForm }) => {
+      if (!user) {
+        router.push("/login")
+        return;
+      }
       try {
         const response = await fetch(`http://localhost:5000/game/${game.id}/reviews`, {
           method: "POST",

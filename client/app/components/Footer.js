@@ -3,15 +3,15 @@ import React from 'react'
 import { Lato, Nunito } from "next/font/google";
 
 const lato = Lato({
-  weight: ["100", "300", "400", "700", "900"],
-  subsets: ["latin"],
-  display: "swap",
+    weight: ["100", "300", "400", "700", "900"],
+    subsets: ["latin"],
+    display: "swap",
 });
 
 const nunito = Nunito({
-  weight: ["200", "300", "400", "500", "700", "900"],
-  subsets: ["latin"],
-  display: "swap",
+    weight: ["200", "300", "400", "500", "700", "900"],
+    subsets: ["latin"],
+    display: "swap",
 });
 
 const Footer = () => {
@@ -25,20 +25,25 @@ const Footer = () => {
                             GamerzHub is a haven for gamers from all walks of life to connect and compete.
                         </p>
                         <div>
-                        <h3 className={`text-lg font-semibold my-4 ${nunito.className} antialiased`}>Connect With Us</h3>
-                        <div className="flex space-x-4">
-                            
+
                         </div>
-                    </div>
                     </div>
                     <div>
                         <h3 className={`text-lg font-semibold mb-4 ${nunito.className} antialiased`}>Quick Links</h3>
                         <ul className="space-y-2 text-muted-foreground ">
                             <li>
+                                <Link href='/'>Home</Link>
+                            </li>
+
+                            <li>
                                 <Link href='/tournaments'>Browse Tournaments</Link>
                             </li>
+
                             <li>
                                 <Link href='/games'>Check out Games</Link>
+                            </li>
+                            <li>
+                                <Link href='/contact'>Contact Us</Link>
                             </li>
                         </ul>
                     </div>

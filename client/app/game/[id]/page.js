@@ -1,4 +1,5 @@
 "use client";
+import Footer from "@/app/components/Footer";
 import GameCard from "@/app/components/GameCard";
 import Navbar from "@/app/components/Navbar";
 import React, { useState, useEffect } from "react";
@@ -59,6 +60,7 @@ const GameDetailPage = ({ params }) => {
           <p className="text-center pt-20 text-gray-500 min-h-screen">Loading game details...</p>
         )}
       </div>
+      <Footer/>
     </div>
   );
 };

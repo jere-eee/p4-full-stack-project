@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import GameCard from "../components/GameCard";
 import { Nunito, Lato } from 'next/font/google';
+import Footer from "../components/Footer";
 
 
 const nunito = Nunito({
@@ -114,6 +115,7 @@ const Page = () => {
             <GameCard key={game.id} game={game} />
           ))}
         </div>
+        <Footer/>
       </div>
     </>
   );

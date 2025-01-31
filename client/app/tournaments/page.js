@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react'
 import Navbar from '../components/Navbar'
 import TournamentCard from '../components/TournamentCard';
+import Footer from '../components/Footer';
 
 const page = () => {
     const [user, setUser] = useState(null)
@@ -42,6 +43,7 @@ const page = () => {
             ))}
 
             </div>
+            <Footer/>
         </div>
     )
 }

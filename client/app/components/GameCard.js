@@ -38,6 +38,7 @@ const GameCard = ({ game, isDetailedView = false, reviews = [], onReviewAdded, u
     }),
     onSubmit: async (values, { resetForm }) => {
       if (!user) {
+        alert("Must be logged in to review.")
         router.push("/login")
         return;
       }

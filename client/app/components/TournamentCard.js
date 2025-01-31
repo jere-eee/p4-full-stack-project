@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Nunito, Lato } from 'next/font/google';
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const nunito = Nunito({
     weight: ["200", "300", "400", "500", "700", "900"],
@@ -17,6 +18,8 @@ const lato = Lato({
 
 const TournamentCard = ({ tournament, user }) => {
     const [joined, setJoined] = useState(false);
+
+    const router = useRouter();
 
     useEffect(() => {
         // Retrieve persisted joined state from localStorage
@@ -104,6 +107,11 @@ const TournamentCard = ({ tournament, user }) => {
                     ) : (
                         <button
                             onClick={() => {
+                                if (!user) {
+                                    alert("Must be logged in to join tournament.")
+                                    router.push("/login")
+                                    return;
+                                }
                                 handleJoinTournament(tournament.id, user.id);
                                 setJoined(true);
                             }}

@@ -172,6 +172,15 @@ class UserById(Resource):
         db.session.commit()
         return make_response({"Message": "User deleted."}, 204)
     
+    def patch(self, id):
+        user = User.query.filter_by(id=id).first()
+        for attr in request.json:
+            setattr(user, attr, request.json[attr])
+            
+        db.session.add(user)
+        db.session.commit()
+        return make_response(user.to_dict(), 200)
+    
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
 api.add_resource(Logout, '/logout', endpoint='logout')

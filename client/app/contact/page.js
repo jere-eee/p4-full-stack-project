@@ -1,5 +1,5 @@
 'use client';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Nunito, Lato } from "next/font/google";
 import { FaEnvelope, FaPhone, FaFacebook, FaTwitter, FaDiscord } from "react-icons/fa";
 import Navbar from "../components/Navbar";
@@ -19,6 +19,19 @@ const lato = Lato({
 
 const ContactPage = () => {
     const [openFAQ, setOpenFAQ] = useState(null);
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        // Auto-login
+        fetch("http://localhost:5000/check_session", {
+            method: "GET",
+            credentials: "include",
+        }).then((r) => {
+            if (r.ok) {
+                r.json().then((user) => setUser(user));
+            }
+        });
+    }, []);
 
     const faqs = [
         { question: "How can I join the gaming community?", answer: "You can sign up on our website by clicking the 'Sign Up' button on the homepage." },
@@ -29,8 +42,8 @@ const ContactPage = () => {
 
     return (
         <>
-            <Navbar />
-            <div className={`min-h-screen flex flex-col items-center bg-[#141B21] text-white p-6 space-y-12 ${lato.className}`}>
+            <Navbar user={user} setUser={setUser} />
+            <div className={`min-h-screen flex flex-col items-center bg-[#141B21] text-white p-6 space-y-12 pt-[148px] ${lato.className}`}>
                 <h1 className={`text-4xl font-bold mb-6 text-center ${nunito.className}`}>Contact Us</h1>
 
                 {/* Contact Sections */}

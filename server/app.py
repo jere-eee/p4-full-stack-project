@@ -164,6 +164,13 @@ class TournamentParticipantById(Resource):
         db.session.delete(participant)
         db.session.commit()
         return make_response({"Message": "Successful delete"}, 204) 
+
+class UserById(Resource):
+    def delete(self, id):
+        user = User.query.filter_by(id=id).first()
+        db.session.delete(user)
+        db.session.commit()
+        return make_response({"Message": "User deleted."}, 204)
     
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
@@ -176,6 +183,7 @@ api.add_resource(ReviewById, '/reviews/<int:id>', endpoint='reviews/[id]')
 api.add_resource(Tournaments, '/tournaments', endpoint='tournaments')
 api.add_resource(TournamentParticipants, '/tournament_participants', endpoint='tournament_participants')
 api.add_resource(TournamentParticipantById, '/tournament_participants/<int:id>', endpoint='tournament_participant/[id]')
+api.add_resource(UserById, '/users/<int:id>', endpoint='users/[id]')
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)

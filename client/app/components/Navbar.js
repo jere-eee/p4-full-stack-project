@@ -55,15 +55,17 @@ const Navbar = ({ user, setUser }) => {
             <>
               {/* Display profile picture and name */}
               <div className="flex items-center space-x-4">
-                {user.profile_picture ? (
-                  <img
-                    src={user.profile_picture}
-                    alt="Profile"
-                    className="w-12 h-12 rounded-full object-cover"
-                  />
-                ) : (
-                  <div className="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center text-xl">{user?.name?.charAt(0).toUpperCase() || ""}</div> // Placeholder if no picture
-                )}
+                <Link href={'/profile'}>
+                  {user.profile_picture ? (
+                    <img
+                      src={user.profile_picture}
+                      alt="Profile"
+                      className="w-12 h-12 rounded-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center text-xl">{user?.name?.charAt(0).toUpperCase() || ""}</div> // Placeholder if no picture
+                  )}
+                </Link>
                 <div>
                   <p className="font-semibold text-white">{user.name}</p>
                   <button onClick={handleLogout} className="text-blue-500 hover:text-blue-700">
@@ -79,7 +81,7 @@ const Navbar = ({ user, setUser }) => {
               </Link>
               <Link href='/signup' className="text-[#FFFFFF] hover:text-[#F1F1F1] border border-white rounded-md py-2 px-6 hover:bg-[#0F161C] transition duration-300">
                 Sign-up
-              </Link> 
+              </Link>
             </>
           )}
         </div>

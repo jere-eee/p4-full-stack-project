@@ -23,8 +23,8 @@ const GameDetailPage = ({ params }) => {
     if (!gameId) return;
 
     Promise.all([
-      fetch(`http://localhost:5000/game/${gameId}`).then(res => res.json()),
-      fetch(`http://localhost:5000/game/${gameId}/reviews`).then(res => res.json())
+      fetch(`https://p4-full-stack-project.onrender.com/game/${gameId}`).then(res => res.json()),
+      fetch(`https://p4-full-stack-project.onrender.com/game/${gameId}/reviews`).then(res => res.json())
     ])
       .then(([gameData, reviewsData]) => {
         setGame(gameData);
@@ -36,7 +36,7 @@ const GameDetailPage = ({ params }) => {
 
   useEffect(() => {
     // Auto-login to fetch the user session
-    fetch("http://localhost:5000/check_session", {
+    fetch("https://p4-full-stack-project.onrender.com/check_session", {
       method: "GET",
       credentials: "include",
     })

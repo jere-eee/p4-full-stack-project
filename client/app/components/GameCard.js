@@ -43,7 +43,7 @@ const GameCard = ({ game, isDetailedView = false, reviews = [], onReviewAdded, u
         return;
       }
       try {
-        const response = await fetch(`http://localhost:5000/game/${game.id}/reviews`, {
+        const response = await fetch(`https://p4-full-stack-project.onrender.com/game/${game.id}/reviews`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ ...values, user_id: user?.id }),
@@ -69,7 +69,7 @@ const GameCard = ({ game, isDetailedView = false, reviews = [], onReviewAdded, u
 
   const handleSaveEdit = async (reviewId) => {
     try {
-      const response = await fetch(`http://localhost:5000/reviews/${reviewId}`, {
+      const response = await fetch(`https://p4-full-stack-project.onrender.com/reviews/${reviewId}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ content: editedContent, rating: editedRating }),
@@ -87,7 +87,7 @@ const GameCard = ({ game, isDetailedView = false, reviews = [], onReviewAdded, u
 
   const handleDeleteReview = async (reviewId) => {
     try {
-      const response = await fetch(`http://localhost:5000/reviews/${reviewId}`, {
+      const response = await fetch(`https://p4-full-stack-project.onrender.com/reviews/${reviewId}`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
       });

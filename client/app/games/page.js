@@ -27,7 +27,7 @@ const Page = () => {
 
   useEffect(() => {
     // Auto-login
-    fetch("http://localhost:5000/check_session", {
+    fetch("https://p4-full-stack-project.onrender.com/check_session", {
       method: "GET",
       credentials: "include",
     }).then((r) => {
@@ -39,7 +39,7 @@ const Page = () => {
 
   useEffect(() => {
     // Fetch games from backend
-    fetch("http://localhost:5000/games")
+    fetch("https://p4-full-stack-project.onrender.com/games")
       .then((r) => r.json())
       .then((games) => {
         setGames(games);

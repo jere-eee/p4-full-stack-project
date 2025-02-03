@@ -15,7 +15,7 @@ const Navbar = ({ user, setUser }) => {
 
   const handleLogout = () => {
     // Clear user state on logout and delete in backend
-    fetch("http://localhost:5000/logout", {
+    fetch("https://p4-full-stack-project.onrender.com/logout", {
       method: "DELETE",
       credentials: "include"
     }).then(r => {

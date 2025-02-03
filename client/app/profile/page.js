@@ -26,7 +26,7 @@ const Page = () => {
 
     useEffect(() => {
         // Auto-login: fetch user data from the backend
-        fetch("http://localhost:5000/check_session", {
+        fetch("https://p4-full-stack-project.onrender.com/check_session", {
             method: "GET",
             credentials: "include",
         }).then((r) => {
@@ -50,7 +50,7 @@ const Page = () => {
 
     const handleLogout = () => {
         // Send a DELETE request to log out, clear state and redirect to homepage
-        fetch("http://localhost:5000/logout", {
+        fetch("https://p4-full-stack-project.onrender.com/logout", {
             method: "DELETE",
             headers: { "Content-Type": "application/json" },
             credentials: "include"
@@ -67,7 +67,7 @@ const Page = () => {
         if (!confirmed) return;
 
         try {
-            const response = await fetch(`http://localhost:5000/users/${user.id}`, {
+            const response = await fetch(`https://p4-full-stack-project.onrender.com/users/${user.id}`, {
                 method: "DELETE",
                 headers: { "Content-Type": "application/json" },
                 credentials: "include"
@@ -84,7 +84,7 @@ const Page = () => {
     const handleSaveProfile = async () => {
         // Send PATCH request to update user's name and email
         try {
-            const response = await fetch(`http://localhost:5000/users/${user.id}`, {
+            const response = await fetch(`https://p4-full-stack-project.onrender.com/users/${user.id}`, {
                 method: "PATCH", 
                 headers: { "Content-Type": "application/json" },
                 credentials: "include",

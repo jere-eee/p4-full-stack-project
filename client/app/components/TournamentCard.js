@@ -29,7 +29,7 @@ const TournamentCard = ({ tournament, user }) => {
 
     const handleLeaveTournament = async (tournamentId, userId) => {
         try {
-            const response = await fetch(`http://localhost:5000/tournament_participants/${userId}`, {
+            const response = await fetch(`https://p4-full-stack-project.onrender.com/tournament_participants/${userId}`, {
                 method: "DELETE",
                 headers: { "Content-Type": "application/json" },
             });
@@ -46,7 +46,7 @@ const TournamentCard = ({ tournament, user }) => {
 
     const handleJoinTournament = async (tournamentId, userId) => {
         try {
-            const response = await fetch(`http://localhost:5000/tournament_participants`, {
+            const response = await fetch(`https://p4-full-stack-project.onrender.com/tournament_participants`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({

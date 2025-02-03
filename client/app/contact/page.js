@@ -23,7 +23,7 @@ const ContactPage = () => {
 
     useEffect(() => {
         // Auto-login
-        fetch("http://localhost:5000/check_session", {
+        fetch("https://p4-full-stack-project.onrender.com/check_session", {
             method: "GET",
             credentials: "include",
         }).then((r) => {

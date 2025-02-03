@@ -20,7 +20,7 @@ export default function Home() {
 
   useEffect(() => {
     // auto-login
-    fetch("http://localhost:5000/check_session", {method: "GET", credentials: "include"}).then((r) => {
+    fetch("https://p4-full-stack-project.onrender.com/check_session", {method: "GET", credentials: "include"}).then((r) => {
       if (r.ok) {
         r.json().then((user) => setUser(user));
       }

@@ -48,7 +48,7 @@ export default function Signup() {
 
       console.log(payload);
 
-      fetch("http://localhost:5000/signup", {
+      fetch("https://p4-full-stack-project.onrender.com/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

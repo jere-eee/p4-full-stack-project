@@ -10,7 +10,7 @@ const page = () => {
 
     useEffect(() => {
         // Auto-login to fetch the user session
-        fetch("http://localhost:5000/check_session", {
+        fetch("https://p4-full-stack-project.onrender.com/check_session", {
             method: "GET",
             credentials: "include",
         })
@@ -26,7 +26,7 @@ const page = () => {
 
     useEffect(() => {
         // Fetch tournaments from backend
-        fetch("http://localhost:5000/tournaments")
+        fetch("https://p4-full-stack-project.onrender.com/tournaments")
           .then((r) => r.json())
           .then((tournaments) => {
             setTournaments(tournaments);

@@ -10,8 +10,8 @@ app = Flask(__name__)
 app.secret_key = b'Y\xf1Xz\x00\xad|eQ\x80t \xca\x1a\x10K'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'  # or 'Strict' based on your needs
-app.config['SESSION_COOKIE_SECURE'] = False  # Set to True if using HTTPS
+app.config['SESSION_COOKIE_SAMESITE'] = 'None'  # or 'Strict' based on your needs
+app.config['SESSION_COOKIE_SECURE'] = True  # Set to True if using HTTPS
 
 app.json.compact = False
 
